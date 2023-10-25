@@ -1,6 +1,7 @@
+import { log } from "console";
 import { FetchError } from "../utils/ErrorHandler";
 import instance from "../utils/axiosInstance";
-import { Pokemon, PokemonSpecies } from "pokenode-ts"
+import { Pokemon, PokemonForm, PokemonSpecies } from "pokenode-ts"
 
 export type PokemonSearch = string
 
@@ -66,10 +67,11 @@ const fetchPoke = async (searchParam?: PokemonSearch): Promise<NeededPokemonData
     return pokemon.data
 }
 
-const fetchMultiplePokes = async () => {
-    const data = await instance.get("/pokemon")
-
-    return data
+const fetchMultiplePokes = async ({ pageParam }: { pageParam: number }) => {
+    const limit = 12
+    const data = await instance.get<PokemonForm[]>(`pokemon/list?page=${+pageParam}&limit=${limit}`)
+    console.log(data.data);
+    return data.data
 }
 
 export {

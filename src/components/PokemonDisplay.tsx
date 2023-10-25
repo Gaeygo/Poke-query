@@ -14,22 +14,22 @@ const PokemonDisplay: React.FC<Props> = ({ pokeId }) => {
 
   if (isLoading) return <p>Loading</p>;
 
-  if (isError) return <p>Error</p>;
+  if (isError) return <p>Error: {error as string}</p>;
 
   if (data)
     return (
       <div>
         <p className="text-cyan-800">{data?.name}</p>
         {data?.abilities.map((ability) => (
-          <p>{ability.ability.name}</p>
+          <p key={ability.ability.name}>{ability.ability.name}</p>
         ))}
         {data?.stats.map((stat) => (
-          <>
+          <div key={stat.stat.name}>
             {" "}
             <p>{stat.stat.name}</p>
             <p>{stat.base_stat}</p>
             <p>{stat.effort}</p>
-          </>
+          </div>
         ))}
         <img src={data.sprites.front_default as string} />
       </div>
